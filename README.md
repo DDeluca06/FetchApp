@@ -13,4 +13,5 @@ npm install
 - Vite
 
 ## Usage
+Run `npm run dev` to start the development server.
 Click the "Get Puppy" button to fetch a random puppy image.
