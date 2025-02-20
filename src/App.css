@@ -5,6 +5,10 @@
   text-align: center;
 }
 
+#puppy-button {
+  margin-bottom: 1rem;
+}
+
 #puppy-container {
   max-width: 80vw;
   max-height: 80vh;

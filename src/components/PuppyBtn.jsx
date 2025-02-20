@@ -9,6 +9,7 @@ const PuppyButton = ({ onClick, isLoading, isDebounced }) => {
             className={`bg-blue-500 text-white hover:bg-blue-600 ${isDebounced || isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
             onClick={onClick}
             disabled={isDebounced || isLoading}
+            id="puppy-button"
         >
             {isLoading ? 'Loading...' : 'Get Puppy'}
         </Button>
