@@ -1,45 +1,20 @@
-import { useState, useRef } from 'react';
-import PuppyButton from './components/PuppyBtn';
-import GetPuppy from './components/GetPuppy';
+// Imports for our pages and navbar
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import NavBar from './components/navbar/NavBar';
+import Home from './pages/Home';
+import About from './pages/About';
 import './App.css';
 
 function App() {
-    const [isLoading, setIsLoading] = useState(false); // Loading state
-    const [error, setError] = useState(null); // Error state
-    const [isDebounced, setIsDebounced] = useState(false); // Debounce state
-    const puppyRef = useRef(null); // Reference for the GetPuppy component
-
-    const handleClick = () => {
-        if (isDebounced || isLoading) return;
-        setIsDebounced(true);
-        
-        // Call fetchPuppy through the ref
-        if (puppyRef.current) {
-            puppyRef.current.fetchPuppy();
-        }
-        
-        // Reset debounce after 2 seconds
-        setTimeout(() => setIsDebounced(false), 2000);
-    }
-
-    return (
-        // Main container
-        <div className="relative z-20 text-center">
-            <PuppyButton 
-                onClick={handleClick}
-                isLoading={isLoading}
-                isDebounced={isDebounced}
-            />
-            {/* Error message */}
-            {error && <p className="text-red-500 mt-2">{error}</p>}
-            {/* GetPuppy component */}
-            <GetPuppy 
-                ref={puppyRef}
-                onLoading={setIsLoading}
-                onError={setError}
-            />
-        </div>
-    )
+  return (
+    <BrowserRouter> {/* BrowserRouter is used to wrap the entire application */}
+      <NavBar /> {/* NavBar is our navigation bar */}   
+      <Routes> {/* Routes is used to define the routes for our application */}
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App;
