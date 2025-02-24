@@ -4,6 +4,8 @@ A simple app to fetch a random puppy image from the Dog API.
 
 ## Installation
 ```bash
+git clone https://github.com/DDeluca06/FetchApp.git
+cd FetchApp
 npm install
 ```
 
