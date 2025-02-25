@@ -8,16 +8,24 @@ function GetPuppy() {
 
     return (
         <>
-        { dogImage && (
-            <div className="flex justify-center items-center h-screen">
-                <img src={dogImage} alt="A puppy!" className="max-w-full max-h-full object-contain" />
-            </div>
-        )}
-        { error && (
-            <div className="flex justify-center items-center h-screen">
-                <p className="text-red-500">Error: {error}</p>
-            </div>
-        )}
+            {dogImage && (
+                <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90vw] md:w-[60vw] lg:w-[50vw] h-[60vh] max-w-2xl max-h-[600px] p-4 bg-white rounded-lg shadow-lg overflow-hidden">
+                    <img 
+                        src={dogImage} 
+                        alt="A puppy!" 
+                        className="w-full h-full object-contain rounded-md"
+                        style={{
+                            maxWidth: '100%',
+                            maxHeight: '100%',
+                        }}
+                    />
+                </div>
+            )}
+            {error && (
+                <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                    <p className="text-red-500">Error: {error}</p>
+                </div>
+            )}
         </>
     );
 }
