@@ -11,34 +11,50 @@ export const PuppyProvider = ({ children }) => {
     const [error, setError] = useState(null);
     const [isDebounced, setIsDebounced] = useState(false);
 
+    // States for history & favorites
+    const [history, setHistory] = useState([]);
+    const [favorites, setFavorites] = useState(() =>
+        JSON.parse(localStorage.getItem("favorites")) || []
+    );
+
     // Fetching a dog from the Dog API
     const fetchDog = useCallback(async () => {
-        // Reset state on each fetch
         try {
             setIsLoading(true);
             setError(null);
             setIsDebounced(true);
+            // Clear the current dog image while loading
+            setDogImage(null);
 
-            // Fetch
             const response = await fetch("https://dog.ceo/api/breeds/image/random");
             
-            // Repsonse check, if not ok, back out.
             if (!response.ok) {
                 throw new Error("Failed to fetch dog image");
             }
 
-            // Set our image
             const data = await response.json();
             setDogImage(data.message);
+
+            // Update history - this is automatic
+            setHistory((prev) => [data.message, ...prev].slice(0, 10));
+
         } catch (error) {
             setError(error.message);
             setDogImage(null);
         } finally {
-            // Reset state, debounce.
             setIsLoading(false);
             setTimeout(() => setIsDebounced(false), 2000);
         }
-    }, [isDebounced, isLoading]);
+    }, []);
+
+    // Function for user-initiated favoriting
+    const likeDog = useCallback(() => {
+        if (dogImage && !favorites.includes(dogImage)) {
+            const newFavorites = [...favorites, dogImage];
+            setFavorites(newFavorites);
+            localStorage.setItem("favorites", JSON.stringify(newFavorites));
+        }
+    }, [dogImage, favorites]);
 
     return (
         <PuppyContext.Provider value={{
@@ -46,8 +62,11 @@ export const PuppyProvider = ({ children }) => {
             isLoading,
             error,
             isDebounced,
-            fetchDog
-            }}>
+            fetchDog,
+            likeDog,
+            history,
+            favorites,
+        }}>
             {children}
         </PuppyContext.Provider>
     );

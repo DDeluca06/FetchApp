@@ -1,4 +1,4 @@
-import React from 'react';
+import { Link } from 'react-router-dom';
 import './NavBar.css';
 
 const NavBar = () => {
@@ -7,15 +7,21 @@ const NavBar = () => {
             <div className="navbar-center">
                 <ul className="nav-links">
                     <li>
-                        <a href="/">Home</a>
+                        <Link to="/">Home</Link>
                     </li>
                     <li>
-                        <a href="/about">About</a>
+                        <Link to="/favorites">Favorites</Link>
+                    </li>
+                    <li>
+                        <Link to="/history">History</Link>
+                    </li>
+                    <li>
+                        <Link to="/about">About</Link>
                     </li>
                 </ul>
             </div>
         </nav>
-    )
+    );
 };
 
 export default NavBar;

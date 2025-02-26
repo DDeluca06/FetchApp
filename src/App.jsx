@@ -4,6 +4,8 @@ import { PuppyProvider } from "./components/context/PuppyContext";
 import NavBar from "./components/navbar/NavBar";
 import Home from "./pages/Home";
 import About from "./pages/About";
+import Favorites from "./pages/Favorites";
+import History from "./pages/History";
 import "./App.css";
 
 function App() {
@@ -16,7 +18,9 @@ function App() {
         <Routes>
         {" "}
         {/* Routes is used to define the routes for our application */}
-        <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/favorites" element={<Favorites />} />
+          <Route path="/history" element={<History />} />
           <Route path="/about" element={<About />} />
         </Routes>
       </PuppyProvider>
