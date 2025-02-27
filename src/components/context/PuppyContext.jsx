@@ -4,6 +4,13 @@ import PropTypes from "prop-types";
 // Creating our context
 const PuppyContext = createContext(null);
 
+// Default settings
+const defaultSettings = {
+    theme: "light",
+    notifications: true,
+    sound: true,
+};
+
 // Creating the provider of our ancient knowledge of dogs.
 export const PuppyProvider = ({ children }) => {
     const [dogImage, setDogImage] = useState(null);
@@ -15,6 +22,11 @@ export const PuppyProvider = ({ children }) => {
     const [history, setHistory] = useState([]);
     const [favorites, setFavorites] = useState(() =>
         JSON.parse(localStorage.getItem("favorites")) || []
+    );
+
+    // Setting Constants
+    const [settings, setSettings] = useState(() =>
+        JSON.parse(localStorage.getItem("settings")) || defaultSettings
     );
 
     // Fetching a dog from the Dog API
@@ -56,6 +68,21 @@ export const PuppyProvider = ({ children }) => {
         }
     }, [dogImage, favorites]);
 
+    // Function for updating settings
+    const updateSettings = useCallback((newSettings) => {
+        // Merge the new settings with existing settings
+        const updatedSettings = {
+            ...settings,
+            ...newSettings
+        };
+        
+        // Update state
+        setSettings(updatedSettings);
+        
+        // Save to localStorage
+        localStorage.setItem("settings", JSON.stringify(updatedSettings));
+    }, [settings]);
+
     return (
         <PuppyContext.Provider value={{
             dogImage,
@@ -66,6 +93,8 @@ export const PuppyProvider = ({ children }) => {
             likeDog,
             history,
             favorites,
+            settings,
+            updateSettings,
         }}>
             {children}
         </PuppyContext.Provider>

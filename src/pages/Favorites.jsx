@@ -6,7 +6,7 @@ const Favorites = () => {
 
     return (
         // Favorites page
-        <div className="container mx-auto px-4 py-8">
+        <div className="page-container">
             <h1 className="text-4xl font-bold mb-8 text-center">My Favorite Puppies</h1>
             {/* If no favorites, show message */}
             {favorites.length === 0 ? (

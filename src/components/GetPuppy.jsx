@@ -1,40 +1,64 @@
-import PropTypes from 'prop-types';
 import { usePuppy } from './context/PuppyContext';
+import { useState, useEffect } from 'react';
 
 function GetPuppy() {
-    const { dogImage, error } = usePuppy();
+    const { dogImage, error, isLoading } = usePuppy();
+    const [currentImage, setCurrentImage] = useState(null);
+    const [isFetching, setIsFetching] = useState(false);
 
-    if (!dogImage && !error) return null;
+    // Handle new image arrival
+    useEffect(() => {
+        if (dogImage) {
+            setCurrentImage(dogImage);
+            setIsFetching(false); // Stop fetching state once the new image is loaded
+        }
+    }, [dogImage]);
+
+    // Trigger fetching state when isLoading changes
+    useEffect(() => {
+        if (isLoading) {
+            setIsFetching(true);
+        }
+    }, [isLoading]);
+
+    if (!currentImage && !error) return null;
 
     return (
-        <>
-            {dogImage && (
-                <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90vw] md:w-[60vw] lg:w-[50vw] h-[60vh] max-w-2xl max-h-[600px] p-4 bg-white rounded-lg shadow-lg overflow-hidden">
-                    <img 
-                        src={dogImage} 
-                        alt="A puppy!" 
-                        className="w-full h-full object-contain rounded-md"
+        <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90vw] md:w-[60vw] lg:w-[50vw] max-w-2xl p-4 bg-[var(--bg-secondary)] rounded-lg shadow-[var(--card-shadow)]">
+            <div className="aspect-square w-full relative">
+                {/* Current image with pulse animation during fetching */}
+                {currentImage && (
+                    <div 
+                        className={`w-full h-full ${isFetching ? 'animate-pulse' : ''}`}
                         style={{
-                            maxWidth: '100%',
-                            maxHeight: '100%',
+                            opacity: isFetching ? 0.5 : 1, // Reduce opacity during fetching
+                            transition: 'opacity 0.3s ease-in-out', // Smooth opacity transition
                         }}
-                    />
-                </div>
-            )}
-            {error && (
-                <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                    <p className="text-red-500">Error: {error}</p>
-                </div>
-            )}
-        </>
-    );
-}
+                    >
+                        <img 
+                            src={currentImage} 
+                            alt="A puppy!" 
+                            className="w-full h-full object-contain rounded-lg"
+                        />
+                    </div>
+                )}
 
-// Prop types for the GetPuppy component
-GetPuppy.propTypes = {
-    onLoading: PropTypes.func.isRequired,
-    onError: PropTypes.func.isRequired,
-    onFetch: PropTypes.func,
+                {/* Loading spinner (optional) */}
+                {isFetching && (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="w-24 h-24 rounded-full border-8 border-[var(--accent-color)] border-t-transparent animate-spin" />
+                    </div>
+                )}
+
+                {/* Error message */}
+                {error && (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                        <p className="text-[var(--error-color)]">Error: {error}</p>
+                    </div>
+                )}
+            </div>
+        </div>
+    );
 }
 
 // Add display name for better debugging

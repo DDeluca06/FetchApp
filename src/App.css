@@ -2,22 +2,128 @@
 @tailwind components;
 @tailwind utilities;
 
+:root[data-theme="light"] {
+  --bg-primary: #ffffff;
+  --text-primary: #213547;
+  --bg-secondary: #f9f9f9;
+  --border-color: #e5e7eb;
+  --accent-color: #646cff;
+  --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --hover-bg: #f3f4f6;
+  --button-text: #ffffff;
+  --error-color: #ef4444;
+  --success-color: #22c55e;
+  --loading-bg: #e5e7eb;
+}
+
+:root[data-theme="dark"] {
+  --bg-primary: #242424;
+  --text-primary: rgba(255, 255, 255, 0.87);
+  --bg-secondary: #1a1a1a;
+  --border-color: #333333;
+  --accent-color: #747bff;
+  --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  --hover-bg: #2d2d2d;
+  --button-text: #ffffff;
+  --error-color: #f87171;
+  --success-color: #4ade80;
+  --loading-bg: #333333;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
 #root {
   width: 100%;
   margin: 0 auto;
 }
 
+/* Card styles */
+.card {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: var(--card-shadow);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--card-shadow), 0 6px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Button styles */
+button {
+  transition: all 0.2s ease;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Input and select styles */
+input[type="text"],
+input[type="number"],
+select {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 0.5rem;
+  transition: border-color 0.2s ease;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus {
+  border-color: var(--accent-color);
+  outline: none;
+}
+
+/* Checkbox styles */
+input[type="checkbox"] {
+  accent-color: var(--accent-color);
+}
+
+/* Error message styles */
+.error-message {
+  color: var(--error-color);
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+/* Success message styles */
+.success-message {
+  color: var(--success-color);
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
 #puppy-button {
   margin-bottom: 1rem;
+  background-color: var(--accent-color);
+  color: var(--button-text);
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: opacity 0.2s ease;
+}
+
+#puppy-button:hover:not(:disabled) {
+  opacity: 0.9;
 }
 
 #puppy-container {
   max-width: 80vw;
   max-height: 80vh;
   padding: 1rem;
-  background: white;
+  background-color: var(--bg-secondary);
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--card-shadow);
 }
 
 #puppy-container img {
@@ -57,10 +163,14 @@
   }
 }
 
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
+@keyframes pulse {
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0.6;
+  }
 }
